@@ -6,8 +6,7 @@
   <title>O Culto Nacional: Silêncio e Conspiração — ARG</title>
   <style>
     :root{
-      --fg:#f2f0ea; --muted:#cfc9bc; --accent:#b08bff;
-      --gold:#ffd27a;
+      --fg:#f2f0ea; --muted:#cfc9bc; --accent:#b08bff; --gold:#ffd27a;
       --z-bg:0; --z-title:1; --z-flash:5; --z-modal:10; --z-curtain:20; --z-top:30;
     }
     html,body{height:100%;margin:0}
@@ -48,47 +47,36 @@
     @keyframes slideStreaks{from{transform:translateX(-6%) translateY(-2%)}to{transform:translateX(6%) translateY(2%)}}
 
     .banner-wrap{position:relative; z-index:var(--z-top); display:flex; flex-direction:column; align-items:center; gap:16px;}
-    .intro-note{ color:var(--muted); opacity:.9; font-size:.95rem; text-align:center }
-
-    /* Photo-like banner (use your image at assets/banner.png) */
     .banner{
-      width:min(68vmin,520px);
-      aspect-ratio:3/5;
-      position:relative;
-      display:grid; place-items:center;
-      transform-origin: top center;
-      animation: sway 4.5s ease-in-out infinite;
-      cursor:pointer;
-      filter: drop-shadow(0 30px 80px rgba(0,0,0,.6));
-      will-change: transform;
+      width:min(68vmin,520px); aspect-ratio:3/5; position:relative; display:grid; place-items:center;
+      transform-origin: top center; animation: sway 4.5s ease-in-out infinite; cursor:pointer;
+      filter: drop-shadow(0 30px 80px rgba(0,0,0,.9));
     }
     @keyframes sway{ 0%{transform:rotate(-1.2deg)} 50%{transform:rotate(1.2deg)} 100%{transform:rotate(-1.2deg)} }
 
     .banner-img{
-      width:100%; height:100%; object-fit:cover;
-      border-radius:8px;
-      box-shadow: inset 0 0 40px rgba(255,210,122,.06);
-      background:#200;
-      /* Subtle cloth ripple shader (SVG filter defined below) */
+      width:100%; height:100%; object-fit:cover; border-radius:8px;
       filter:url(#clothRipple);
-      will-change: filter;
     }
 
-    /* Sigil overlay centered on top of the banner */
-    .symbol-overlay{
-      position:absolute; inset:0; pointer-events:none;
+    /* Emblem overlay centered on the intro banner */
+    #intro .symbol-overlay{
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:35%; pointer-events:none; z-index:2; display:block !important;
     }
-    .symbol-overlay img{
-      width:42%; max-width:220px; opacity:1; margin:auto;
-    }
+    .symbol-overlay .agency{width:100%; height:auto; display:block}
 
-    /* Invisible full-screen click zone to open the Intro modal */
     .intro-hotzone{ position:absolute; inset:0; }
 
-    /* ---------- MODAL (Intro Name Gate) ---------- */
-    .modal{position:fixed;inset:0;z-index:var(--z-modal);display:grid;place-items:center;background:radial-gradient(1200px 800px at 50% 30%,rgba(0,0,0,.72),rgba(0,0,0,.88));opacity:0;pointer-events:none;transition:opacity .45s ease}
-    .modal.show{opacity:1;pointer-events:auto}
-    .card{width:min(92vw,720px);background:linear-gradient(180deg,rgba(20,20,24,.88),rgba(10,10,12,.88));border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.55);padding:clamp(18px,3.2vmin,34px);animation:pop .35s ease both}
+    /* ---------- MODALS ---------- */
+    .modal{
+      position:fixed; inset:0; z-index:var(--z-modal); display:grid; place-items:center;
+      background:radial-gradient(1200px 800px at 50% 30%,rgba(0,0,0,.822),rgba(255,210,122,.1));
+      opacity:0; pointer-events:none; visibility:hidden;
+      transition:opacity .45s ease, visibility .45s step-end;
+    }
+    .modal.show{ opacity:1; pointer-events:auto; visibility:visible; transition:opacity .45s ease, visibility 0s; }
+    .card{width:min(92vw,720px);background:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.9));border:3px solid rgba(255,210,122,.2);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.55);padding:clamp(18px,3.2vmin,34px);animation:pop .35s ease both}
     @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
     .hint{font-size:clamp(14px,2.2vmin,18px);color:var(--muted);margin:10px 0 12px 0;line-height:1.5}
     .field{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px}
@@ -96,7 +84,7 @@
     .go{appearance:none;border:0;padding:10px 14px;border-radius:8px;background:rgba(176,139,255,.15);color:var(--fg);cursor:pointer;font-weight:600;transition:transform .1s ease,background .2s ease}
     .go:hover{transform:translateY(-1px);background:rgba(176,139,255,.22)}
     .error{margin-top:10px;color:#ffb3b3;font-size:.95rem;min-height:1.3em;opacity:.9}
-    .modal .symbol-top{ display:block; margin:-4px auto 6px auto; width:72px; opacity:.9 }
+    .symbol-top-modal{ display:block; margin:-6% auto -1% auto; width: 22.5%; opacity:1 }
 
     /* ---------- ENROLLMENT PAGE ---------- */
     .enroll-wrap{width:min(94vw,980px);background:linear-gradient(180deg,rgba(10,10,12,.86),rgba(0,0,0,.78));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:clamp(16px,3vmin,28px);box-shadow:0 20px 60px rgba(0,0,0,.55);text-align:center}
@@ -105,7 +93,7 @@
     .doc-frame embed,.doc-frame iframe,.doc-frame img{width:100%;height:100%}
     .download{margin-top:14px;appearance:none;border:1px solid rgba(255,255,255,.15);padding:12px 18px;border-radius:10px;background:rgba(255,255,255,.06);color:var(--fg);cursor:pointer;font-weight:700;letter-spacing:.04em}
 
-    /* ---------- LANDING (previous), AUDIO, FLASH ---------- */
+    /* ---------- LANDING, AUDIO, FLASH ---------- */
     .bg{position:absolute;inset:-2%;z-index:var(--z-bg);overflow:hidden;filter:saturate(.9) contrast(1.05) brightness(.8)}
     .bg video,.bg img{position:absolute;width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
     .kenburns{animation:drift 40s ease-in-out infinite alternate}
@@ -115,11 +103,26 @@
     @keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     .subtitle{margin-top:.6rem;font-size:clamp(.9rem,2vw,1.1rem);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;opacity:.7}
 
-    .flash{position:fixed;inset:0;z-index:var(--z-flash);display:grid;place-items:center;pointer-events:none;opacity:0}
-    .flash.play{animation:flash .55s cubic-bezier(.2,.6,.2,1) both}
-    @keyframes flash{0%{background:rgba(255,255,255,0);opacity:0}8%{background:rgba(255,255,255,.07);opacity:1}18%{background:rgba(255,255,255,.15)}30%{background:rgba(255,255,255,.05)}55%{background:rgba(255,255,255,0)}100%{opacity:0}}
-    .flash.play svg{animation:emblem .55s steps(8,end) both}
-    @keyframes emblem{0%{opacity:0;transform:scale(1.1) translateY(6px)}20%{opacity:1;transform:scale(1)}42%{opacity:.85;transform:translateX(-1px)}60%{opacity:1}100%{opacity:0;transform:scale(.98) translateY(-2px)}}
+    /* FLASH (PNG) — hidden unless .play) */
+    .flash{position:fixed;inset:0;z-index:var(--z-flash);display:grid;place-items:center;pointer-events:none;opacity:0;visibility:hidden}
+    .flash.play{visibility:visible;animation:flash .55s cubic-bezier(.2,.6,.2,1) both}
+    @keyframes flash{
+      0%{background:rgba(255,255,255,0);opacity:0}
+      8%{background:rgba(255,255,255,.07);opacity:1}
+      18%{background:rgba(255,255,255,.15)}
+      30%{background:rgba(255,255,255,.05)}
+      55%{background:rgba(255,255,255,0)}
+      100%{opacity:0}
+    }
+    .flash .flash-mark{width:clamp(72px,18vmin,200px);height:auto;display:block;opacity:.95;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+    .flash.play .flash-mark{animation:emblem .55s steps(8,end) both}
+    @keyframes emblem{
+      0%{opacity:0;transform:scale(1.1) translateY(6px)}
+      20%{opacity:1;transform:scale(1)}
+      42%{opacity:.85;transform:translateX(-1px)}
+      60%{opacity:1}
+      100%{opacity:0;transform:scale(.98) translateY(-2px)}
+    }
 
     .audio-wrap{width:min(92vw,860px);background:linear-gradient(180deg,rgba(10,10,12,.86),rgba(0,0,0,.78));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:clamp(16px,3vmin,28px);box-shadow:0 20px 60px rgba(0,0,0,.55);text-align:center}
     .audio-wrap h2{margin:.2rem 0 1rem 0;font-weight:600;letter-spacing:.02em}
@@ -129,10 +132,26 @@
     .cta{appearance:none;border:1px solid rgba(255,255,255,.15);padding:12px 18px;border-radius:10px;background:rgba(255,255,255,.06);color:var(--fg);cursor:pointer;font-weight:700;letter-spacing:.04em}
     .question{margin-top:10px;font-size:1.05rem;color:var(--muted)}
 
+    /* Highlighted riddle phrase */
+    .riddle{
+      margin-top:16px; padding:14px 16px;
+      background:linear-gradient(180deg,rgba(255,210,122,.18),rgba(255,210,122,.06));
+      border:1px solid rgba(255,210,122,.35); border-radius:12px;
+      font-weight:700; letter-spacing:.02em;
+    }
+    .hint-mini{ font-size:.9rem; color:var(--muted); margin-top:6px; }
+
+    /* ---------- CONSPIRACY PATH VIEW ---------- */
+    .consp-wrap{width:min(92vw,980px);background:linear-gradient(180deg,rgba(10,10,12,.9),rgba(0,0,0,.82));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:clamp(18px,3vmin,28px);box-shadow:0 20px 60px rgba(0,0,0,.6);text-align:center}
+    .consp-wrap h2{margin:.2rem 0 1rem 0;font-weight:700;letter-spacing:.03em}
+    .consp-wrap p{color:var(--muted)}
+    .consp-actions{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid rgba(255,255,255,.15);padding:12px 18px;border-radius:10px;background:rgba(255,255,255,.06);color:var(--fg);cursor:pointer;font-weight:700;letter-spacing:.04em}
+
     .inert{pointer-events:none !important;user-select:none !important;opacity:.6}
     @media (prefers-reduced-motion:reduce){
       *{animation:none !important;transition:none !important}
-      .banner-img{ filter:none !important; } /* disable ripple */
+      .banner-img{ filter:none !important; }
     }
   </style>
 </head>
@@ -141,7 +160,6 @@
   <!-- SVG filter defs (cloth ripple) -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
-      <!-- Subtle animated turbulence + displacement -->
       <filter id="clothRipple">
         <feTurbulence type="fractalNoise" baseFrequency="0.007 0.012" numOctaves="2" seed="8" result="noise">
           <animate attributeName="baseFrequency" dur="9s" values="0.007 0.012; 0.010 0.015; 0.007 0.012" repeatCount="indefinite"/>
@@ -163,11 +181,9 @@
 
     <div class="banner-wrap">
       <div id="banner" class="banner">
-        <!-- Photo banner -->
-        <img src="assets/Gemini_Generated_Image_2zl8u12zl8u12zl8.png" alt="Banner da Agência" class="banner-img" />
-        <!-- Secret agency symbol overlay -->
+        <img src="assets/faff30ec-832f-4289-9b9f-753ae63092cd.png" alt="Banner da Agência" class="banner-img" />
         <div class="symbol-overlay">
-            <img src="assets/Agency.png" alt="Selo da Agência" class="modal symbol-top" />
+          <img src="assets/Agency.png" alt="Selo da Agência" class="agency" />
         </div>
       </div>
     </div>
@@ -177,9 +193,9 @@
 
   <!-- Intro Modal -->
   <div id="introModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="introLabel" aria-describedby="introDesc">
-    <div class="card">
-        <img src="assets/OrdoAdamas.png" alt="Selo da Agência" class="modal symbol-top" style="margin: 3.5%;"/>
-      <h3 id="introLabel" style="margin:3.5% 0 0 0">Pronto para se juntar a luta contra o Paranormal?</h3>
+    <div class="card" style="padding: 3%; margin: 10%;">
+      <img src="assets/OrdoAdamas.png" alt="Selo da Agência" class="symbol-top-modal"/>
+      <h3 id="introLabel" style="margin:1.5% 0 0 0; padding: 0.5%;">Pronto para se juntar a luta contra o Paranormal?</h3>
       <p id="introDesc" class="hint">Digite seu nome de chamada e confirme.</p>
       <div class="field">
         <input id="introName" type="text" autocomplete="off" placeholder="Insira seu nome" aria-label="Insira seu nome" />
@@ -202,7 +218,7 @@
   <section id="home" class="view" aria-label="Página inicial do ARG">
     <div class="bg" aria-hidden="true">
       <video class="kenburns" autoplay muted loop playsinline>
-        <source src="assets/Banner.mp4" type="video/mp4">
+        <source src="assets/Campaign_Banner.mp4" type="video/mp4">
       </video>
     </div>
     <div class="title-wrap" role="heading" aria-level="1">
@@ -221,19 +237,24 @@
     <div class="audio-wrap">
       <h2>Faixa I: Prelúdio ao Desespero</h2>
       <audio id="teaser" class="audio" controls preload="auto">
-        <source src="assets/teaser.mp3" type="audio/mpeg">
+        <source src="assets/Das Stille Lied.wav" type="audio/wav">
         Seu navegador não suporta o player de áudio.
       </audio>
       <div id="postAudio" class="reveal" aria-live="polite">
-        <button id="continueBtn" class="cta" style="display:none">Prosseguir</button>
+        <button id="downloadInviteBtn" class="cta" style="display:none">Aceito</button>
         <div id="invite" class="question" style="display:none">Você aceita ir à ópera comigo?</div>
+        <!-- Permanent hint appears after invite is downloaded -->
+        <div id="riddleBox" class="riddle" style="display:none">
+          “Quando o inverno chega, todos têm duas opções: Enfrentá-lo ou explorar o desconhecido.”
+        </div>
+        <div id="gateHint" class="hint-mini" style="display:none"></div>
       </div>
     </div>
   </section>
 
   <!-- SECRET FLASH for landing -->
   <div id="flash" class="flash" aria-hidden="true">
-    <img src="assets/Agency.svg" alt="Selo da Agência" class="modal symbol-top" />
+    <img src="assets/Agency.png" alt="Selo da Agência" class="flash-mark" />
   </div>
 
   <!-- PASSWORD MODAL (landing step) -->
@@ -249,10 +270,31 @@
     </div>
   </div>
 
+  <!-- ========== CONSPIRACY PATH VIEW ========== -->
+  <section id="conspiracyView" class="view" aria-label="Caminho: Conspiração">
+    <div class="consp-wrap">
+      <h2>Caminho Desbloqueado: Conspiração</h2>
+      <p>Você escolheu explorar o desconhecido. As camadas se movem; os véus caem. Siga as instruções, agente.</p>
+      <div class="consp-actions">
+        <button id="conspNext" class="btn">Prosseguir</button>
+        <button id="conspBackHome" class="btn">Voltar à Página da Campanha</button>
+      </div>
+    </div>
+  </section>
+
   <script>
-    /* ===================== PERSISTENCE ===================== */
-    const STORAGE_KEY = 'ocn_arg_progress_v1';
-    const INTRO_KEY   = 'ocn_intro_done_v1';
+    /* ===================== CONFIG (EDIT THESE) ===================== */
+    const INVITE_FILE = "assets/Invite.pdf"; // TODO: your actual invite file
+    const GATE_ISO = "2025-10-05T20:00:00-03:00"; // TODO: gate date/time (America/Sao_Paulo)
+    const URL_FOR_WINTER = "https://example.com/externo"; // TODO: external site
+    const URL_FOR_CONSPIRACAO = ""; // if you prefer redirect instead of internal view, put URL here
+
+    /* ===================== PERSISTENCE KEYS ===================== */
+    const STORAGE_KEY = 'ocn_arg_progress_v1';     // 0..3 (landing/audio progress)
+    const INTRO_KEY   = 'ocn_intro_done_v1';       // intro completed
+    const HINT_KEY    = 'ocn_hint_active_v1';      // 1 after invite downloaded (to keep hint visible)
+    const PATH_KEY    = 'ocn_path_conspiracao_v1'; // 1 after "Conspiração" accepted post-gate
+
     const safeGet = (k, fallback=null)=>{ try{ const v = localStorage.getItem(k); return v ?? fallback; }catch{ return fallback; } };
     const safeSet = (k, v)=>{ try{ localStorage.setItem(k, v); }catch{} };
     const safeDel = (k)=>{ try{ localStorage.removeItem(k); }catch{} };
@@ -264,74 +306,78 @@
     const home = document.getElementById('home');
     const audioView = document.getElementById('audioView');
     const enrollView = document.getElementById('enrollView');
+    const conspiracyView = document.getElementById('conspiracyView');
     const curtain = document.getElementById('curtain');
-
     function showView(target){ views.forEach(v => v.classList.toggle('active', v === target)); }
     function transitionTo(target){ curtain.classList.remove('play'); void curtain.offsetWidth; curtain.classList.add('play'); setTimeout(()=> showView(target), 360); }
 
-    /* ===================== INTRO PAGE LOGIC ===================== */
-    const ALLOWED_NAMES = {
-      "Adrian": "assets/letters/carta_de_Aceite_Ordem-Adrian.pdf",
-      "Renny": "assets/letters/carta_de_Aceite_Ordem-Adrian.pdf",
-      "Dandara": "assets/letters/carta_de_Aceite_Ordem-Dandara.pdf",
-      "Ana": "assets/letters/carta_de_Aceite_Ordem-Dandara.pdf",
-      "Rafael": "assets/letters/carta_de_Aceite_Ordem-Rafael.pdf",
-      "Matheus": "assets/letters/carta_de_Aceite_Ordem-Rafael.pdf",
-      "Mellyssa": "assets/letters/mark.pdf",
-      "Mellyssa": "assets/letters/mark.pdf",
-      // add more:
-      // "joao": "assets/letters/joao.pdf",
-      // "aurora": "assets/letters/aurora.pdf",
-    };
-
-    const banner = document.getElementById('banner');
-    const introModal = document.getElementById('introModal');
+    /* === INTRO ELEMENTS & HANDLERS === */
+    const banner       = document.getElementById('banner');
     const introHotzone = document.getElementById('introHotzone');
-    const introName = document.getElementById('introName');
-    const introGo = document.getElementById('introGo');
-    const introError = document.getElementById('introError');
-    const docFrame = document.getElementById('docFrame');
-    const downloadBtn = document.getElementById('downloadBtn');
+    const introModal   = document.getElementById('introModal');
+    const introName    = document.getElementById('introName');
+    const introGo      = document.getElementById('introGo');
+    const introError   = document.getElementById('introError');
+    const docFrame     = document.getElementById('docFrame');
+    const downloadBtn  = document.getElementById('downloadBtn');
+
+    function openIntroModal(){ introModal.classList.add('show'); setTimeout(()=> introName && introName.focus(), 50); }
+    function closeIntroModal(){ introModal.classList.remove('show'); if (introError) introError.textContent = ""; if (introName) introName.value = ""; }
+    function loadEnrollmentDoc(file){
+      docFrame.innerHTML = "";
+      const lower = file.toLowerCase();
+      if (lower.endsWith(".pdf")){
+        const embed = document.createElement('embed'); embed.type = "application/pdf"; embed.src = file; embed.setAttribute('aria-label','Documento PDF'); docFrame.appendChild(embed);
+      } else if (/\.(png|jpg|jpeg|webp)$/i.test(lower)){
+        const img = document.createElement('img'); img.src = file; img.alt = "Documento"; docFrame.appendChild(img);
+      } else {
+        const iframe = document.createElement('iframe'); iframe.src = file; iframe.title = "Documento"; docFrame.appendChild(iframe);
+      }
+    }
 
     banner.addEventListener('click', ()=>{
-      safeSet(INTRO_KEY, '1');
+      safeSet(INTRO_KEY,'1');
       transitionTo(home);
       applyProgressSideEffects();
     });
 
     introHotzone.addEventListener('click', (e)=>{
       const r = banner.getBoundingClientRect();
-      if (e.clientX>=r.left && e.clientX<=r.right && e.clientY>=r.top && e.clientY<=r.bottom) return;
-      openIntroModal();
+      const inside = e.clientX>=r.left && e.clientX<=r.right && e.clientY>=r.top && e.clientY<=r.bottom;
+      if (!inside) openIntroModal();
     });
 
-    function openIntroModal(){ introModal.classList.add('show'); setTimeout(()=> introName.focus(), 50); }
-    function closeIntroModal(){ introModal.classList.remove('show'); introError.textContent=""; introName.value=""; }
+    introGo.addEventListener('click', validateIntro);
+    introName.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){ e.preventDefault(); validateIntro(); }
+    });
 
-    function loadEnrollmentDoc(file){
-      docFrame.innerHTML = "";
-      const lower = file.toLowerCase();
-      if (lower.endsWith(".pdf")){
-        const embed = document.createElement('embed'); embed.type="application/pdf"; embed.src=file; embed.setAttribute('aria-label','Documento PDF'); docFrame.appendChild(embed);
-      } else if (/\.(png|jpg|jpeg|webp)$/i.test(lower)){
-        const img = document.createElement('img'); img.src=file; img.alt="Documento"; docFrame.appendChild(img);
-      } else { const iframe = document.createElement('iframe'); iframe.src=file; iframe.title="Documento"; docFrame.appendChild(iframe); }
-    }
+    /* ===================== INTRO PAGE LOGIC ===================== */
+    const ALLOWED_ENTRIES_RAW = {
+      "Adrian":   "assets/letters/carta_de_Aceite_Ordem-Adrian.pdf",
+      "Renny":    "assets/letters/carta_de_Aceite_Ordem-Adrian.pdf",
+      "Dandara":  "assets/letters/carta_de_Aceite_Ordem-Dandara.pdf",
+      "Ana":      "assets/letters/carta_de_Aceite_Ordem-Dandara.pdf",
+      "Rafael":   "assets/letters/carta_de_Aceite_Ordem-Rafael.pdf",
+      "Matheus":  "assets/letters/carta_de_Aceite_Ordem-Rafael.pdf",
+      "Mellyssa": "assets/letters/mark.pdf",
+    };
+    const ALLOWED_MAP = new Map(Object.entries(ALLOWED_ENTRIES_RAW).map(([k, v]) => [normalize(k), v]));
 
     function validateIntro(){
-      const key = normalize(introName.value);
-      const file = ALLOWED_NAMES[key];
+      const key  = normalize(introName.value);
+      const file = ALLOWED_MAP.get(key);
       if (!file){ introError.textContent = "Nome não reconhecido."; return; }
-      closeIntroModal(); loadEnrollmentDoc(file);
-      downloadBtn.onclick = ()=>{
-        const a=document.createElement('a'); a.href=file; a.download=""; document.body.appendChild(a); a.click(); a.remove();
-        safeSet(INTRO_KEY, '1'); transitionTo(home); applyProgressSideEffects();
+      closeIntroModal();
+      loadEnrollmentDoc(file);
+      downloadBtn.onclick = () => {
+        const a = document.createElement('a'); a.href = file; a.download = "";
+        document.body.appendChild(a); a.click(); a.remove();
+        safeSet(INTRO_KEY, '1');
+        transitionTo(home); applyProgressSideEffects();
       };
       transitionTo(enrollView);
     }
-    introGo.addEventListener('click', validateIntro);
-    introName.addEventListener('keydown', (e)=>{ if (e.key==='Enter'){ e.preventDefault(); validateIntro(); } if (e.key==='Escape'){ closeIntroModal(); }});
-    introModal.addEventListener('click', (e)=>{ if (e.target===introModal) closeIntroModal(); });
 
     /* ===================== LANDING SECRET FLOW ===================== */
     let PROGRESS = Number.parseInt(safeGet(STORAGE_KEY, '0'), 10);
@@ -339,61 +385,216 @@
     const setProgress = (n) => { if (n<=PROGRESS) return; PROGRESS=n; safeSet(STORAGE_KEY,String(PROGRESS)); applyProgressSideEffects(); };
 
     const flash = document.getElementById('flash');
-    const playFlash = () => { if (PROGRESS!==0) return; flash.classList.remove('play'); void flash.offsetWidth; flash.classList.add('play'); };
-
-    let clickCount=0, clickTimer=null; const STREAK_WINDOW_MS=2000;
-    const resetStreak=()=>{ clickCount=0; clearTimeout(clickTimer); clickTimer=null; };
-
     const landingModal  = document.getElementById('modal');
     const secretInput   = document.getElementById('secret');
     const goBtn         = document.getElementById('goBtn');
     const landingError  = document.getElementById('error');
 
-    function openLandingModal(){ if (PROGRESS>=2) return; landingModal.classList.add('show'); setTimeout(()=> secretInput.focus(), 50); }
-    function closeLandingModal(){ landingModal.classList.remove('show'); landingError.textContent=""; secretInput.value=""; }
-    function hardDisableModal(){ landingModal.classList.remove('show'); landingModal.classList.add('inert'); landingModal.setAttribute('aria-hidden','true'); secretInput.setAttribute('disabled','true'); goBtn.setAttribute('disabled','true'); }
-    function validateSecret(){ if (PROGRESS>=2) return; const val=normalize(secretInput.value); if (val==="duvida"){ setProgress(2); closeLandingModal(); transitionTo(audioView); } else { landingError.textContent="Resposta incorreta."; } }
-    goBtn.addEventListener('click', validateSecret);
-    secretInput.addEventListener('keydown', (e)=>{ if (e.key==='Enter'){ e.preventDefault(); validateSecret(); } if (e.key==='Escape'){ closeLandingModal(); } });
-    landingModal.addEventListener('click', (e)=>{ if (e.target===landingModal) closeLandingModal(); });
-
-    const onGlobalClick = (e) => {
+    const playFlash = () => {
       if (!home.classList.contains('active')) return;
-      if (PROGRESS!==0) return;
+      if (PROGRESS !== 0) return;
       if (landingModal.classList.contains('show')) return;
+      flash.classList.remove('play'); void flash.offsetWidth; flash.classList.add('play');
+    };
 
+    let clickCount=0, clickTimer=null; const STREAK_WINDOW_MS=2000;
+    const resetStreak=()=>{ clickCount=0; clearTimeout(clickTimer); clickTimer=null; };
+
+    function openLandingModal(){ if (PROGRESS>=2) return; landingModal.classList.add('show'); setTimeout(()=> secretInput.focus(), 50); }
+    function hardDisableModal(){
+      landingModal.classList.remove('show');
+      landingModal.classList.add('inert');
+      landingModal.setAttribute('aria-hidden','true');
+      secretInput.setAttribute('disabled','true');
+      goBtn.setAttribute('disabled','true');
+    }
+    function validateSecret(){
+      if (PROGRESS>=2) return;
+      const val = normalize(secretInput.value);
+      if (val === "duvida"){
+        setProgress(2);
+        landingModal.classList.remove('show');
+        landingError.textContent = "";
+        secretInput.blur();
+        setTimeout(() => { hardDisableModal(); }, 50);
+        transitionTo(audioView);
+      } else {
+        landingError.textContent = "Resposta incorreta.";
+      }
+    }
+    goBtn.addEventListener('click', validateSecret);
+    secretInput.addEventListener('keydown', (e)=>{
+      if (e.key==='Enter'){ e.preventDefault(); validateSecret(); }
+    });
+
+    const onHomeClick = () => {
+      if (!home.classList.contains('active')) return;
+      if (PROGRESS !== 0) return;
+      if (landingModal.classList.contains('show')) return;
       playFlash();
       clickCount++; clearTimeout(clickTimer); clickTimer=setTimeout(resetStreak, STREAK_WINDOW_MS);
-
-      if (clickCount>=5){
-        setProgress(1); resetStreak(); openLandingModal(); detachGlobalClick();
+      if (clickCount >= 5){
+        setProgress(1); resetStreak(); openLandingModal(); detachHomeClicks();
       }
     };
-    function detachGlobalClick(){ document.removeEventListener('click', onGlobalClick, true); flash.classList.remove('play'); flash.classList.add('inert'); }
-    function maybeAttachGlobalClick(){ const introDone=safeGet(INTRO_KEY,'0')==='1'; if (introDone && PROGRESS===0){ document.addEventListener('click', onGlobalClick, true); } else { detachGlobalClick(); } }
+    function attachHomeClicks(){
+      home.removeEventListener('click', onHomeClick);
+      if (safeGet(INTRO_KEY,'0')==='1' && PROGRESS===0) home.addEventListener('click', onHomeClick);
+    }
+    function detachHomeClicks(){ home.removeEventListener('click', onHomeClick); flash.classList.remove('play'); }
 
-    // Audio page
+    /* ===================== AUDIO PAGE + POST-AUDIO FLOW ===================== */
     const audioEl   = document.getElementById('teaser');
     const postAudio = document.getElementById('postAudio');
-    const contBtn   = document.getElementById('continueBtn');
+    const downloadInviteBtn = document.getElementById('downloadInviteBtn');
     const invite    = document.getElementById('invite');
-    let finishedOnce=false;
+    const riddleBox = document.getElementById('riddleBox');
+    const gateHint  = document.getElementById('gateHint');
 
-    audioEl.addEventListener('ended', ()=>{ if (finishedOnce) return; finishedOnce=true; setProgress(3); postAudio.classList.add('show'); setTimeout(()=>{ contBtn.style.display='inline-block'; },40); setTimeout(()=>{ invite.style.display='block'; },260); });
-    function lockAudio(){ try{ audioEl.pause(); audioEl.controls=false; audioEl.style.pointerEvents='none'; audioEl.setAttribute('tabindex','-1'); audioEl.setAttribute('aria-hidden','true'); audioEl.classList.add('inert'); }catch{} }
-    contBtn.addEventListener('click', ()=>{ contBtn.textContent="Acesso Concedido"; contBtn.disabled=true; });
+    const GATE_DATE = new Date(GATE_ISO);
+    let finishedOnce = false;
+    let typingActive = false;
+    let typeBuffer   = "";
 
-    // Apply persisted state
-    function applyProgressSideEffects(){
-      const introDone = safeGet(INTRO_KEY,'0')==='1';
-      if (!introDone){ showView(intro); detachGlobalClick(); }
-      else{
-        if (PROGRESS>=2) showView(audioView); else showView(home);
-        maybeAttachGlobalClick();
+    function showDownloadAndInvite(){
+      postAudio.classList.add('show');
+      downloadInviteBtn.style.display='inline-block';
+      invite.style.display='block';
+    }
+
+    function showPermanentHint(){
+      riddleBox.style.display = 'block';
+      gateHint.style.display  = 'block';
+      updateGateHintMessage();
+      typingActive = true;
+      safeSet(HINT_KEY, '1');
+    }
+
+    function hideHint(){
+      riddleBox.style.display = 'none';
+      gateHint.style.display  = 'none';
+      typingActive = false;
+      safeDel(HINT_KEY);
+    }
+
+    function updateGateHintMessage(){
+      const now = new Date();
+      if (now < GATE_DATE){
+        const when = GATE_DATE.toLocaleString('pt-BR', { hour12:false });
+        gateHint.textContent = `As respostas estarão disponíveis em ${when}.`;
+      } else {
+        gateHint.textContent = "Digite sua resposta…";
       }
-      if (PROGRESS>=1) detachGlobalClick();
-      if (PROGRESS>=2) hardDisableModal();
-      if (PROGRESS>=3){ lockAudio(); postAudio.classList.add('show'); contBtn.style.display='inline-block'; invite.style.display='block'; finishedOnce=true; }
+    }
+
+    audioEl.addEventListener('ended', ()=>{
+      if (finishedOnce) return;
+      finishedOnce = true;
+      setProgress(3);
+      showDownloadAndInvite();
+    });
+
+    // After download, show permanent hint (and keep it across reloads)
+    downloadInviteBtn.addEventListener('click', ()=>{
+      const a = document.createElement('a');
+      a.href = INVITE_FILE; a.download = "";
+      document.body.appendChild(a); a.click(); a.remove();
+
+      downloadInviteBtn.style.display = 'none';
+      invite.style.display = 'none';
+      showPermanentHint();
+    });
+
+    function handleTypedAnswer(clean){
+      const now = new Date();
+
+      // "Winter" opens external site in new tab and does not change state
+      if (clean === "winter"){
+        window.open(URL_FOR_WINTER, "_blank", "noopener");
+        typeBuffer = "";
+        return;
+      }
+
+      // "Conspiração" only after gate date/time
+      if (clean === "conspiracao"){
+        if (now >= GATE_DATE){
+          // unlock path
+          safeSet(PATH_KEY, '1');
+          hideHint();
+          if (URL_FOR_CONSPIRACAO && URL_FOR_CONSPIRACAO.trim() !== ""){
+            window.location.href = URL_FOR_CONSPIRACAO;
+          } else {
+            transitionTo(conspiracyView);
+          }
+        } else {
+          updateGateHintMessage();
+        }
+        typeBuffer = "";
+        return;
+      }
+    }
+
+    // global typing capture (only while hint is visible & audioView is current)
+    window.addEventListener('keydown', (e)=>{
+      if (!typingActive) return;
+      if (!audioView.classList.contains('active')) return;
+      if (!document.hasFocus()) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+
+      const ch = e.key.length === 1 ? e.key : '';
+      if (!ch) return;
+      const cleaned = ch.normalize("NFD").replace(/\p{Diacritic}/gu,"").toLowerCase();
+      if (!/[a-z]/.test(cleaned)) return;
+
+      typeBuffer += cleaned;
+      if (typeBuffer.length > 20) typeBuffer = typeBuffer.slice(-20);
+
+      // quick check for keywords at the end of typing
+      const word = typeBuffer.replace(/[^a-z]/g,'');
+      if (word.endsWith("winter"))       handleTypedAnswer("winter");
+      if (word.endsWith("conspiracao"))  handleTypedAnswer("conspiracao");
+    });
+
+    /* ===================== CONSPIRACY VIEW ACTIONS ===================== */
+    const conspNext = document.getElementById('conspNext');
+    const conspBackHome = document.getElementById('conspBackHome');
+    conspNext.addEventListener('click', ()=>{ alert("Próximo passo da Conspiração aqui…"); });
+    conspBackHome.addEventListener('click', ()=>{ transitionTo(home); });
+
+    /* ===================== APPLY STATE & REDUCED MOTION ===================== */
+    function applyProgressSideEffects(){
+      const introDone  = safeGet(INTRO_KEY,'0')==='1';
+      const hintActive = safeGet(HINT_KEY,'0')==='1';
+      const pathActive = safeGet(PATH_KEY,'0')==='1';
+
+      if (!introDone){ showView(intro); detachHomeClicks(); }
+      else{
+        if (pathActive){
+          // If path already unlocked, jump to the conspiracy view directly
+          showView(conspiracyView);
+        } else if (PROGRESS>=2){
+          showView(audioView);
+        } else {
+          showView(home);
+        }
+
+        if (PROGRESS===0) attachHomeClicks(); else detachHomeClicks();
+      }
+
+      if (PROGRESS>=2) { hardDisableModal(); }
+      if (PROGRESS>=3){
+        // reflect post-audio UI on revisit
+        postAudio.classList.add('show');
+        downloadInviteBtn.style.display = 'inline-block';
+        invite.style.display = 'block';
+      }
+      // Reinstate permanent hint if it had been activated earlier and path not yet unlocked
+      if (hintActive && !pathActive){
+        downloadInviteBtn.style.display = 'none';
+        invite.style.display = 'none';
+        showPermanentHint();
+      }
     }
     applyProgressSideEffects();
 
@@ -401,19 +602,44 @@
     const prm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const v = document.querySelector('#home .bg video'); if (prm && v){ v.removeAttribute('autoplay'); v.pause(); }
 
-    /* ===================== DEV SHORTCUT ===================== */
-    // Alt + Shift + R => reset local progress and return to Intro
+    /* ===================== DEV SHORTCUT (FULL RESET) ===================== */
+    // Alt + Shift + R => reset every state and return to Intro
     window.addEventListener('keydown', (e)=>{
       if (e.altKey && e.shiftKey && (e.key==='R' || e.key==='r')){
-        safeDel(STORAGE_KEY);
-        safeDel(INTRO_KEY);
-        // optional: visual feedback
-        console.info('[ARG] Progress reset');
-        // hard reset to intro view
+        // wipe storage
+        [STORAGE_KEY, INTRO_KEY, HINT_KEY, PATH_KEY].forEach(safeDel);
+
+        // reset progress flags
+        PROGRESS = 0; finishedOnce = false; typingActive = false; typeBuffer = "";
+
+        // reset audio UI
+        try{
+          audioEl.pause();
+          audioEl.currentTime = 0;
+          audioEl.controls = true;
+          audioEl.style.pointerEvents = '';
+          audioEl.removeAttribute('tabindex');
+          audioEl.removeAttribute('aria-hidden');
+          audioEl.classList.remove('inert');
+        }catch{}
+
+        // reset post-audio UI & hint
+        postAudio.classList.remove('show');
+        downloadInviteBtn.style.display='none';
+        invite.style.display='none';
+        hideHint();
+
+        // reset password modal
+        landingModal.classList.remove('show','inert');
+        landingModal.removeAttribute('aria-hidden');
+        secretInput.removeAttribute('disabled'); secretInput.value="";
+        goBtn.removeAttribute('disabled'); landingError.textContent = "";
+
+        // back to intro & reattach click streak
         showView(intro);
-        // ensure listeners reflect fresh state
-        PROGRESS = 0;
-        maybeAttachGlobalClick();
+        attachHomeClicks();
+
+        console.info('[ARG] Full reset done');
       }
     });
   </script>
